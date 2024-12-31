@@ -1,0 +1,64 @@
+<!-- your_app/templates/s3_notifications.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S3 Notifications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .notification {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .notification h4 {
+            margin: 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>S3 File Upload Notifications</h1>
+    <div id="notifications"></div>
+
+    <script>
+        // Establish WebSocket connection
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/s3_notifications/');
+
+            socket.onopen = function() {
+                console.log('WebSocket connection established');
+            };
+
+            socket.onmessage = function(e) {
+                console.log('Message received:', e.data);
+            };
+
+            socket.onclose = function(e) {
+                console.error('WebSocket closed:', e);
+            };
+
+            socket.onerror = function(e) {
+                console.error('WebSocket error:', e);
+            };
+
+        // When a message is received, display it
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const notification = document.createElement('div');
+            notification.classList.add('notification');
+            notification.innerHTML = `<h4>${data.message}</h4>`;
+            document.getElementById('notifications').appendChild(notification);
+        };
+
+        socket.onclose = function(e) {
+            console.error('WebSocket closed unexpectedly');
+        };
+    </script>
+</body>
+</html>
