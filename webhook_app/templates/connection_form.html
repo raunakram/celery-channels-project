@@ -1,0 +1,38 @@
+<!-- your_app/templates/s3_notifications.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection Form</title>
+</head>
+<body>
+    <h1>Connection Details</h1>
+    <form action="/connect-s3/" method="post">
+        <label for="aws_access_key_id">AWS Access Key ID:</label><br>
+        <input type="text" id="aws_access_key_id" name="aws_access_key_id" required><br><br>
+
+        <label for="aws_secret_access_key">AWS Secret Access Key:</label><br>
+        <input type="password" id="aws_secret_access_key" name="aws_secret_access_key" required><br><br>
+
+        <label for="region_name">Region Name:</label><br>
+        <input type="text" id="region_name" name="region_name" required><br><br>
+
+        <button onclick="setCredentials()">Connect</button>
+    </form>
+
+
+    <script>
+        function setCredentials(){
+            const aws_access_key_id = document.getElementById("aws_access_key_id")
+            const aws_secret_access_key = document.getElementById("aws_secret_access_key")
+            const region_name = document.getElementById("region_name")
+
+            localStorage.setItem("aws_access_key_id", aws_access_key_id)
+            localStorage.setItem("aws_secret_access_key", aws_secret_access_key)
+            localStorage.setItem("region_name", region_name)
+        }
+    </script>
+
+</body>
+</html>
